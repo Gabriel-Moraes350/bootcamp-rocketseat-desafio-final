@@ -1,4 +1,6 @@
 import Sequelize, { Model } from 'sequelize';
+// eslint-disable-next-line import/no-cycle
+import Enroll from './Enroll';
 
 class Student extends Model {
   static init(sequelize) {
@@ -16,6 +18,13 @@ class Student extends Model {
     );
 
     return this;
+  }
+
+  static associate() {
+    this.hasMany(Enroll, {
+      as: 'enrollment',
+      foreignKey: 'studentId',
+    });
   }
 }
 

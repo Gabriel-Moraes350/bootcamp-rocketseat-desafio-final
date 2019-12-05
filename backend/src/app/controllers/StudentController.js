@@ -1,10 +1,14 @@
 import Student from '../models/Student';
-import checkEmailStudentService from '../validators/checkEmailStudentService';
+import checkEmailStudentValidator from '../validators/checkEmailStudentValidator';
 
 class StudentController {
+  async index(req, res) {
+    return res.json(await Student.findAll());
+  }
+
   async store(req, res) {
     try {
-      await checkEmailStudentService({ email: req.body.email });
+      await checkEmailStudentValidator({ email: req.body.email });
     } catch (e) {
       return res.status(400).json({ error: e.toString() });
     }
@@ -27,7 +31,7 @@ class StudentController {
     const { email } = req.body;
     if (findStudent.email !== email) {
       try {
-        await checkEmailStudentService({ email });
+        await checkEmailStudentValidator({ email });
       } catch (e) {
         return res.status(400).json({ error: e.toString() });
       }

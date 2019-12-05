@@ -1,5 +1,5 @@
 import Plan from '../models/Plan';
-import checkPlanTitleService from '../validators/checkPlanTitleService';
+import checkPlanTitleValidator from '../validators/checkPlanTitleValidator';
 
 class PlanController {
   async index(req, res) {
@@ -12,7 +12,7 @@ class PlanController {
     const { title } = req.body;
 
     try {
-      await checkPlanTitleService(title);
+      await checkPlanTitleValidator(title);
     } catch (e) {
       return res.status(400).json({ error: e.toString() });
     }
@@ -34,7 +34,7 @@ class PlanController {
 
     if (plan.title !== title) {
       try {
-        await checkPlanTitleService(title);
+        await checkPlanTitleValidator(title);
       } catch (e) {
         return res.status(400).json({ error: e.toString() });
       }
@@ -52,7 +52,13 @@ class PlanController {
       return res.status(404).json({ error: 'Plan not found!' });
     }
 
-    // TODO:: CHECK IF HAS ENROLLMENT AND DON'T ALLOW TO DELETE
+    const enrollment = await plan.getEnroll();
+    if (enrollment.length > 0) {
+      return res.status(400).json({
+        error:
+          'Plan has enrollment! Delete the enrollment before delete the plan',
+      });
+    }
 
     await plan.destroy();
 

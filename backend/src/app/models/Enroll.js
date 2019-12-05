@@ -1,19 +1,33 @@
+/* eslint-disable import/no-cycle */
 import Sequelize, { Model } from 'sequelize';
-import Plan from './Plan';
 import Student from './Student';
+import Plan from './Plan';
 
 class Enroll extends Model {
   static init(sequelize) {
     super.init(
       {
         startDate: Sequelize.DATE,
-        studentId: Sequelize.INTEGER,
-        planId: Sequelize.INTEGER,
+        studentId: {
+          type: Sequelize.INTEGER,
+          references: {
+            model: Student,
+            key: 'id',
+          },
+        },
+        planId: {
+          type: Sequelize.INTEGER,
+          references: {
+            model: Plan,
+            key: 'id',
+          },
+        },
         endDate: Sequelize.DATE,
         price: Sequelize.DECIMAL,
       },
       {
         sequelize,
+        tableName: 'enrollment',
       }
     );
 
@@ -21,8 +35,10 @@ class Enroll extends Model {
   }
 
   static associate() {
-    this.hasOne(Plan, { as: 'plans', foreignKey: 'plan_id' });
-    this.hasOne(Student, { as: 'student', foreignKey: 'student_id' });
+    this.belongsTo(Plan, {
+      as: 'plan',
+      foreignKey: 'planId',
+    });
   }
 }
 

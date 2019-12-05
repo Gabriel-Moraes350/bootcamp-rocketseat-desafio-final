@@ -16,11 +16,11 @@ module.exports = {
         },
       },
       question: {
-        type: Sequelize.STRING,
+        type: Sequelize.STRING(500),
         allowNull: false,
       },
       answer: {
-        type: Sequelize.STRING,
+        type: Sequelize.STRING(500),
       },
       answer_at: {
         type: Sequelize.DATE,
