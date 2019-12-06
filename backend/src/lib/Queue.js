@@ -1,8 +1,8 @@
 import Bee from 'bee-queue';
-import NewEnroll from '../app/jobs/NewEnroll';
+import NewRegistration from '../app/jobs/NewRegistration';
 import HelpOrderAnswer from '../app/jobs/HelpOrderAnswer';
 
-const jobs = [NewEnroll, HelpOrderAnswer];
+const jobs = [NewRegistration, HelpOrderAnswer];
 
 class Queue {
   constructor() {

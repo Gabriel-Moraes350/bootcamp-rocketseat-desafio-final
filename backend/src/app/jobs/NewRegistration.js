@@ -9,13 +9,13 @@ class NewEnroll {
     const {
       student,
       plan: { title: planTitle, duration: planDuration },
-      enroll: { price, endDate },
+      Registration: { price, endDate },
     } = data;
 
     await Mail.sendMail({
       to: `${student.name} <${student.email}>`,
       subject: 'Seja bem-vindo a Gympoint',
-      template: 'new-enroll',
+      template: 'new-Registration',
       context: {
         name: student.name,
         planTitle,

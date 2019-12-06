@@ -1,6 +1,6 @@
 /* eslint-disable import/no-cycle */
 import Sequelize, { Model } from 'sequelize';
-import Enroll from './Enroll';
+import Registration from './Registration';
 
 class Plan extends Model {
   static init(sequelize) {
@@ -19,8 +19,8 @@ class Plan extends Model {
   }
 
   static associate() {
-    this.hasMany(Enroll, {
-      as: 'enroll',
+    this.hasMany(Registration, {
+      as: 'registration',
       foreignKey: 'planId',
     });
   }

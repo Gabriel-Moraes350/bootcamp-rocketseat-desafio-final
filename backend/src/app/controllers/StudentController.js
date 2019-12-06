@@ -1,9 +1,17 @@
+import { Op } from 'sequelize';
 import Student from '../models/Student';
 import checkEmailStudentValidator from '../validators/checkEmailStudentValidator';
 
 class StudentController {
   async index(req, res) {
-    return res.json(await Student.findAll());
+    const { q } = req.query;
+    const where = {};
+    if (q) {
+      where.name = {
+        [Op.like]: `%${q}%`,
+      };
+    }
+    return res.json(await Student.findAll({ where }));
   }
 
   async store(req, res) {

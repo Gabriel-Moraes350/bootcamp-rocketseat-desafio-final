@@ -1,9 +1,10 @@
 /* eslint-disable import/no-cycle */
 import Sequelize, { Model } from 'sequelize';
+import { isBefore, isAfter } from 'date-fns';
 import Student from './Student';
 import Plan from './Plan';
 
-class Enroll extends Model {
+class Registration extends Model {
   static init(sequelize) {
     super.init(
       {
@@ -24,10 +25,19 @@ class Enroll extends Model {
         },
         endDate: Sequelize.DATE,
         price: Sequelize.DECIMAL,
+        active: {
+          type: Sequelize.VIRTUAL(Sequelize.BOOLEAN, ['startDate', 'endDate']),
+          get() {
+            return (
+              isBefore(this.get('startDate'), new Date()) &&
+              isAfter(this.get('endDate'), new Date())
+            );
+          },
+        },
       },
       {
         sequelize,
-        tableName: 'enrollment',
+        tableName: 'registrations',
       }
     );
 
@@ -42,4 +52,4 @@ class Enroll extends Model {
   }
 }
 
-export default Enroll;
+export default Registration;

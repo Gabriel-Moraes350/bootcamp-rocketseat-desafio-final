@@ -1,8 +1,8 @@
 import { addMonths, parseISO } from 'date-fns';
 import Plan from '../models/Plan';
-import Enroll from '../models/Enroll';
+import Registration from '../models/Registration';
 import Queue from '../../lib/Queue';
-import NewEnroll from '../jobs/NewEnroll';
+import NewEnroll from '../jobs/NewRegistration';
 import Student from '../models/Student';
 
 async function calculateEnroll({ startDate, studentId, planId }) {
@@ -24,34 +24,34 @@ async function calculateEnroll({ startDate, studentId, planId }) {
   };
 }
 
-export const newEnroll = async ({ startDate, studentId, planId }) => {
-  let enroll = await calculateEnroll({ startDate, studentId, planId });
+export const register = async ({ startDate, studentId, planId }) => {
+  let registration = await calculateEnroll({ startDate, studentId, planId });
 
-  enroll = await Enroll.create(enroll);
+  registration = await Registration.create(registration);
 
   const student = await Student.findByPk(studentId);
-  const plan = await enroll.getPlan();
+  const plan = await registration.getPlan();
 
   const data = {
     student,
     plan,
-    enroll,
+    registration,
   };
 
   // send email to new student
   Queue.add(NewEnroll.key, data);
 
-  return enroll;
+  return registration;
 };
 
-export const updateEnroll = async ({ startDate, studentId, planId }, id) => {
-  const enroll = await calculateEnroll({ startDate, studentId, planId });
+export const update = async ({ startDate, studentId, planId }, id) => {
+  const registration = await calculateEnroll({ startDate, studentId, planId });
 
-  const existentEnroll = await Enroll.findByPk(id);
+  const existentRegister = await Registration.findByPk(id);
 
-  if (!existentEnroll) {
-    throw new Error('Enroll not found!');
+  if (!existentRegister) {
+    throw new Error('Registration not found!');
   }
 
-  return existentEnroll.update(enroll);
+  return existentRegister.update(registration);
 };

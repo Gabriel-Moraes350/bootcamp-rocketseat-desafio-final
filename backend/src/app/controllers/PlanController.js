@@ -52,11 +52,11 @@ class PlanController {
       return res.status(404).json({ error: 'Plan not found!' });
     }
 
-    const enrollment = await plan.getEnroll();
-    if (enrollment.length > 0) {
+    const registration = await plan.getRegistration();
+    if (registration.length > 0) {
       return res.status(400).json({
         error:
-          'Plan has enrollment! Delete the enrollment before delete the plan',
+          'Plan has registration! Delete the registration before delete the plan',
       });
     }
 

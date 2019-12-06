@@ -6,7 +6,7 @@ import StudentValidator from './app/validators/StudentValidator';
 import StudentController from './app/controllers/StudentController';
 import PlanController from './app/controllers/PlanController';
 import PlanValidator from './app/validators/PlanValidator';
-import EnrollController from './app/controllers/EnrollController';
+import RegistrationController from './app/controllers/RegistrationController';
 import enrollValidator from './app/validators/enrollValidator';
 import CheckinController from './app/controllers/CheckinController';
 import studentExistsValidator from './app/validators/studentExistsValidator';
@@ -19,7 +19,10 @@ const routes = new Router();
 
 routes.post('/login', loginValidator, sessionController.store);
 
-// checkins
+/**
+ * checkins
+ *  */
+
 routes.get(
   '/students/:studentId/checkins',
   studentExistsValidator,
@@ -31,7 +34,9 @@ routes.post(
   CheckinController.store
 );
 
-// help-order-student
+/**
+ * help-order-student
+ *  */
 routes.post(
   '/students/:studentId/help-orders',
   studentExistsValidator,
@@ -44,7 +49,9 @@ routes.get(
   StudentHelpOrdersController.index
 );
 
-// routes below need authentication
+/**
+ * routes below need authentication
+ */
 routes.use(authorization);
 routes.get('/', (req, res) => res.json({ message: 'Hello' }));
 
@@ -59,11 +66,15 @@ routes.post('/plans', PlanValidator, PlanController.store);
 routes.put('/plans/:id', PlanValidator, PlanController.update);
 routes.delete('/plans/:id', PlanController.delete);
 
-// enrollment
-routes.get('/enrollment', EnrollController.index);
-routes.post('/enrollment', enrollValidator, EnrollController.store);
-routes.put('/enrollment/:id', enrollValidator, EnrollController.update);
-routes.delete('/enrollment/:id', EnrollController.delete);
+// registration
+routes.get('/registrations', RegistrationController.index);
+routes.post('/registrations', enrollValidator, RegistrationController.store);
+routes.put(
+  '/registrations/:id',
+  enrollValidator,
+  RegistrationController.update
+);
+routes.delete('/registrations/:id', RegistrationController.delete);
 
 // help orders
 routes.get('/help-orders', HelpOrderController.index);
