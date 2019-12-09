@@ -27,6 +27,7 @@ class SessionController {
     return res.json({
       email,
       access_token,
+      user: findUser,
     });
   }
 }
