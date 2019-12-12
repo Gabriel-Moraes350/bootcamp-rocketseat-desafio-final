@@ -26,3 +26,10 @@ export const signUpFail = () => {
     payload: {},
   };
 };
+
+export const signOut = () => {
+  return {
+    type: signUpActions.SIGN_OUT,
+    payload: {},
+  };
+};

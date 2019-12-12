@@ -49,6 +49,11 @@ class Registration extends Model {
       as: 'plan',
       foreignKey: 'planId',
     });
+
+    this.belongsTo(Student, {
+      as: 'student',
+      foreignKey: 'studentId',
+    });
   }
 }
 

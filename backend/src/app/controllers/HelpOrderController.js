@@ -8,6 +8,7 @@ class HelpOrderController {
       where: {
         answerAt: null,
       },
+      include: ['student'],
     });
 
     return res.json(itensWithNoAnswer);

@@ -1,15 +1,19 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import h_logo from '~/assets/horizontal-logo.png';
 import { Wrapper, Header } from './styles';
+import { signOut } from '~/store/modules/auth/actions';
+import history from '~/services/history';
 
 export default function DefaultWrapper({ children }) {
+  const dispatch = useDispatch();
   const headItems = [
     {
       title: 'Alunos',
       url: '/students',
-      active: true,
+      active: false,
     },
     {
       title: 'Planos',
@@ -30,6 +34,19 @@ export default function DefaultWrapper({ children }) {
 
   const [menuItems, setMenuItems] = useState(headItems);
 
+  useEffect(() => {
+    const lastPartUrl = window.location.pathname.split('/').pop();
+    const result = headItems.map(item => {
+      if (item.url === `/${lastPartUrl}`) {
+        item.active = true;
+      }
+
+      return item;
+    });
+
+    setMenuItems(result);
+  }, [headItems]);
+
   const handleMenuClick = item => {
     const newMenuItems = menuItems.map(i => {
       if (i.url !== item.url) {
@@ -44,7 +61,10 @@ export default function DefaultWrapper({ children }) {
     setMenuItems(newMenuItems);
   };
 
-  const handleLogout = () => {};
+  const handleLogout = () => {
+    dispatch(signOut());
+    history.push('/');
+  };
 
   return (
     <>

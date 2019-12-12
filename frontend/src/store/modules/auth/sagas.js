@@ -11,11 +11,12 @@ function* signUp({ payload }) {
   try {
     const response = yield call(api.post, '/login', { email, password });
 
-    toast.success('Login realizado com sucesso!');
-
     const { access_token: token, user } = response.data;
 
     yield put(signUpSuccess(token, user));
+
+    // attach authorization header when user does login
+    api.defaults.headers.common.Authorization = `Bearer ${token}`;
 
     history.push('/students');
   } catch (error) {

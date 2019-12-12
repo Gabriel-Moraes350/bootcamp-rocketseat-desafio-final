@@ -48,6 +48,7 @@ export const Header = styled.header`
       color: ${darken(0.2, '#999999')};
     }
   }
+
   img {
     width: 135px;
     height: 24px;
@@ -76,8 +77,7 @@ export const Header = styled.header`
       border: 0;
       outline: 0;
       background: transparent;
-      color: #DE3B3B;
-    }
+      color: #de3b3b;
     }
   }
 `;

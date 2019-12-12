@@ -16,7 +16,7 @@ function App() {
     <Provider store={store}>
       <PersistGate persistor={persistor}>
         <Router history={history}>
-          <ToastContainer autoClose={4000} />
+          <ToastContainer position="bottom-right" autoClose={4000} />
           <Routes />
           <GlobalStyle />
         </Router>

@@ -1,10 +1,12 @@
 import Registration from '../models/Registration';
 import { register, update } from '../services/saveRegistration';
+import Student from '../models/Student';
+import Plan from '../models/Plan';
 
 class RegistrationController {
   async index(req, res) {
     const registration = await Registration.findAll({
-      attributes: ['id', 'startDate', 'endDate', 'price', 'active'],
+      include: [{ model: Student, as: 'student' }, { model: Plan, as: 'plan' }],
     });
 
     return res.json(registration);
