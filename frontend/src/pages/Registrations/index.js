@@ -46,7 +46,7 @@ export default function Registrations() {
       title="Gerenciando matrículas"
       columns={['Aluno', 'Plano', 'Início', 'Término', 'Ativa']}
       fields={['student', 'plan', 'startDate', 'endDate', 'active']}
-      urlEdit="registrations"
+      urlEdit="registrations-form"
       data={registrations}
       onDelete={onDelete}
     />

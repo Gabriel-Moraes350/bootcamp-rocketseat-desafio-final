@@ -37,7 +37,7 @@ export default function DefaultWrapper({ children }) {
   useEffect(() => {
     const lastPartUrl = window.location.pathname.split('/').pop();
     const result = headItems.map(item => {
-      if (item.url === `/${lastPartUrl}`) {
+      if (`/${lastPartUrl}`.indexOf(item.url) !== -1) {
         item.active = true;
       }
 

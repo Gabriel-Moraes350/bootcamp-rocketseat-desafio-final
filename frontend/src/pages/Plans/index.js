@@ -41,7 +41,7 @@ export default function Plans() {
       title="Gerenciando planos"
       columns={['Título', 'Duração', 'Valor p/ Mês']}
       fields={['title', 'duration', 'price']}
-      urlEdit="plan"
+      urlEdit="plans-form"
       data={plans}
       onDelete={onDelete}
       width={800}

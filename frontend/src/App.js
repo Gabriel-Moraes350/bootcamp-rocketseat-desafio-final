@@ -2,6 +2,7 @@ import React from 'react';
 import { Router } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { ToastContainer } from 'react-toastify';
+import '~/config/yup.locale.pt-br';
 import '~/config/ReactotronConfig';
 import { PersistGate } from 'redux-persist/integration/react';
 
