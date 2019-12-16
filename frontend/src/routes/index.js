@@ -19,8 +19,15 @@ export default function Routes() {
       <Route path="/registrations" exact component={Registrations} />
       <Route path="/students" exact component={Students} />
       <Route path="/students-form" exact component={StudentForm} />
+      <Route path="/students-form/:id" exact component={StudentForm} />
       <Route path="/plans-form" exact component={PlanForm} />
+      <Route path="/plans-form/:id" exact component={PlanForm} />
       <Route path="/registrations-form" exact component={RegistrationForm} />
+      <Route
+        path="/registrations-form/:id"
+        exact
+        component={RegistrationForm}
+      />
       <Redirect to="/" />
     </Switch>
   );

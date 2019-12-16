@@ -5,8 +5,9 @@ import { Container } from './styles';
 import history from '~/services/history';
 
 export default function ContainerForm({ title, onSave, children, ...props }) {
-  const backClick = () => {
-    history.goBack();
+  const backClick = e => {
+    e.preventDefault();
+    return history.goBack();
   };
 
   return (
@@ -14,7 +15,12 @@ export default function ContainerForm({ title, onSave, children, ...props }) {
       <div>
         <h1>{title}</h1>
         <div>
-          <Button color="#CCCCCC" title="Voltar" onClick={backClick} />
+          <Button
+            color="#CCCCCC"
+            type="button"
+            title="Voltar"
+            onClick={backClick}
+          />
           <Button title="Salvar" type="submit" />
         </div>
       </div>

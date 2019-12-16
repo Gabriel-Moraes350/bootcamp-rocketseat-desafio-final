@@ -12,7 +12,7 @@ export default function Plans() {
         const { data } = await api.get(`/plans`);
 
         const result = data.map(plan => {
-          plan.duration =
+          plan.durationText =
             plan.duration > 1 ? `${plan.duration} meses` : '1 mês';
 
           plan.price = `R$${parseFloat(plan.price).toFixed(2)}`;
@@ -28,11 +28,15 @@ export default function Plans() {
     getPlans();
   }, []);
 
-  const onDelete = id => {
+  const onDelete = async id => {
     if (window.confirm('Deseja realmente excluir esse plano?')) {
-      const newPlans = plans.filter(s => s.id !== id);
-      // TODO:: CHAMAR EXCLUSAO
-      setPlans(newPlans);
+      try {
+        await api.delete(`/plans/${id}`);
+        const newPlans = plans.filter(s => s.id !== id);
+        setPlans(newPlans);
+      } catch (e) {
+        toast.error('Não foi possível excluir plano');
+      }
     }
   };
 
@@ -40,7 +44,7 @@ export default function Plans() {
     <ListComponent
       title="Gerenciando planos"
       columns={['Título', 'Duração', 'Valor p/ Mês']}
-      fields={['title', 'duration', 'price']}
+      fields={['title', 'durationText', 'price']}
       urlEdit="plans-form"
       data={plans}
       onDelete={onDelete}

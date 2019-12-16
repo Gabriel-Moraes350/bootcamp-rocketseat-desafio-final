@@ -21,4 +21,8 @@ export const Container = styled.div`
     padding-left: 15px;
     border: 1px solid #dddddd;
   }
+  span {
+    padding: 4px;
+    color: red;
+  }
 `;

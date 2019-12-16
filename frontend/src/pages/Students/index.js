@@ -38,11 +38,15 @@ export default function Students() {
     timeout = setTimeout(() => setSearchText(value), 500);
   };
 
-  const onDelete = id => {
+  const onDelete = async id => {
     if (window.confirm('Deseja realmente excluir esse aluno?')) {
-      const newStudents = students.filter(s => s.id !== id);
-      // TODO:: CHAMAR EXCLUSAO
-      setStudents(newStudents);
+      try {
+        await api.delete(`/students/${id}`);
+        const newStudents = students.filter(s => s.id !== id);
+        setStudents(newStudents);
+      } catch (e) {
+        toast.error('Não foi possível excluir estudante');
+      }
     }
   };
 

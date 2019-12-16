@@ -33,11 +33,16 @@ export default function Registrations() {
     getRegistrations();
   }, []);
 
-  const onDelete = id => {
+  const onDelete = async id => {
     if (window.confirm('Deseja realmente excluir essa matrícula?')) {
-      const newRegistrations = registrations.filter(s => s.id !== id);
-      // TODO:: CHAMAR EXCLUSAO
-      setRegistrarions(newRegistrations);
+      try {
+        await api.delete(`/registrations/${id}`);
+
+        const newRegistrations = registrations.filter(s => s.id !== id);
+        setRegistrarions(newRegistrations);
+      } catch (e) {
+        toast.error('Não foi possível excluir a matrícula');
+      }
     }
   };
 

@@ -52,7 +52,11 @@ export default function ListComponent({
                       <td key={field}>{item[field]}</td>
                     ))}
                     <td>
-                      <Link to={`${urlEdit}/${item.id}`}>editar</Link>
+                      <Link
+                        to={{ pathname: `${urlEdit}/${item.id}`, state: item }}
+                      >
+                        editar
+                      </Link>
                     </td>
                     <td>
                       <button type="button" onClick={() => onDelete(item.id)}>
