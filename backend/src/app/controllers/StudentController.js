@@ -8,7 +8,7 @@ class StudentController {
     const where = {};
     if (q) {
       where.name = {
-        [Op.like]: `%${q}%`,
+        [Op.iLike]: `%${q}%`,
       };
     }
     return res.json(await Student.findAll({ where }));
