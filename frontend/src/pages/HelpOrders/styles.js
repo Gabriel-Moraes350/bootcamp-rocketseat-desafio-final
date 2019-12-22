@@ -67,3 +67,48 @@ export const Container = styled.div`
     }
   }
 `;
+
+export const ModalForm = styled.div`
+  background: #ffffff;
+  border-radius: 4px;
+  width: 450px;
+  max-width: 100%;
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+
+  h4 {
+    margin: 10px 0;
+    text-transform: uppercase;
+    font-size: 14px;
+    font-weight: bold;
+    color: #444444;
+    width: 100%;
+  }
+
+  p {
+    font-size: 16px;
+    font-weight: normal;
+    color: #666666;
+    margin-bottom: 10px;
+    width: 100%;
+  }
+
+  textarea {
+    min-height: 127px;
+    margin-bottom: 20px;
+    padding: 10px;
+    width: 100%;
+    border-radius: 4px;
+  }
+
+  button {
+    height: 45px;
+    width: 100%;
+    text-align: center;
+    background: #ee4d64;
+    color: white;
+    border-radius: 4px;
+  }
+`;

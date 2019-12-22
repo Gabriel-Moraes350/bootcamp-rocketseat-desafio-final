@@ -11,13 +11,15 @@ export default function Registrations() {
     async function getRegistrations() {
       try {
         const { data } = await api.get(`/registrations`);
-
         const result = data.map(register => {
           register = {
+            ...register,
             id: register.id,
             active: register.active ? 'SIM' : 'NÃO',
             student: register.student.name,
             plan: register.plan.title,
+            unitPrice: register.plan.price,
+            duration: register.plan.duration,
             startDate: format(parseISO(register.startDate), 'dd/MM/yyyy'),
             endDate: format(parseISO(register.endDate), 'dd/MM/yyyy'),
           };

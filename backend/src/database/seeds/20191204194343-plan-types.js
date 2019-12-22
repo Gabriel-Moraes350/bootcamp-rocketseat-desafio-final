@@ -18,7 +18,7 @@ module.exports = {
           updated_at: new Date(),
         },
         {
-          title: 'Diamont',
+          title: 'Diamond',
           duration: 6,
           price: 89.0,
           created_at: new Date(),
