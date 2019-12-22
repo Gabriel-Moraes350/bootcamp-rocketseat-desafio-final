@@ -78,6 +78,11 @@ export const ModalForm = styled.div`
   justify-content: center;
   flex-direction: column;
 
+  span {
+    color: red;
+    padding: 4px;
+  }
+
   h4 {
     margin: 10px 0;
     text-transform: uppercase;
@@ -97,9 +102,10 @@ export const ModalForm = styled.div`
 
   textarea {
     min-height: 127px;
-    margin-bottom: 20px;
+    margin-bottom: 5px;
     padding: 10px;
     width: 100%;
+    resize: none;
     border-radius: 4px;
   }
 
@@ -110,5 +116,6 @@ export const ModalForm = styled.div`
     background: #ee4d64;
     color: white;
     border-radius: 4px;
+    margin: 20px 0;
   }
 `;

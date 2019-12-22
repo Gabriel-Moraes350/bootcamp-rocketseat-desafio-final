@@ -79,10 +79,6 @@ routes.delete('/registrations/:id', RegistrationController.delete);
 
 // help orders
 routes.get('/help-orders', HelpOrderController.index);
-routes.post(
-  '/help-orders/:id/answer',
-  helpOrdersValidator,
-  HelpOrderController.store
-);
+routes.post('/help-orders/:id', helpOrdersValidator, HelpOrderController.store);
 
 export default routes;

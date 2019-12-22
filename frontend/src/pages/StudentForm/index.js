@@ -30,7 +30,7 @@ export default function StudentForm() {
     if (state) {
       const newState = {
         ...state,
-        weight: state.weight.padStart(6, '0'),
+        weight: state.weight.padStart(5, '0'),
         height: parseFloat(state.height).toFixed(2),
         birthDate: format(parseISO(state.birthDate), 'dd/MM/yyyy'),
       };

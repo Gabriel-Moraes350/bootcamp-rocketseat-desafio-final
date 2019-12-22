@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
+import * as Yup from 'yup';
 import { toast } from 'react-toastify';
+import { Form, Input } from '@rocketseat/unform';
 import api from '~/services/api';
 import { Container, ModalForm } from './styles';
 import Modal from '~/components/Modal';
@@ -17,6 +19,31 @@ export default function HelpOrders() {
     setAnswerOrder(order);
     setOpen(true);
   };
+
+  const handleSubmit = async ({ answer }, { resetForm }) => {
+    try {
+      const { data } = await api.post(`/help-orders/${answerOrder.id}`, {
+        answer,
+      });
+      if (data.error) {
+        throw new Error(data.error);
+      }
+      resetForm();
+      setOpen(false);
+
+      //remove answered order
+      const newOrders = orders.filter(o => o.id !== answerOrder.id);
+      setOrders(newOrders);
+
+      toast.success('Pergunta respondida com sucesso!');
+    } catch (e) {
+      toast.error('Não foi possível responder o aluno');
+    }
+  };
+
+  const schema = Yup.object().shape({
+    answer: Yup.string().required('Necessário informar uma resposta!'),
+  });
 
   useEffect(() => {
     async function getHelpOrders() {
@@ -70,11 +97,13 @@ export default function HelpOrders() {
       </Container>
       <Modal show={open} handleClose={handleClose}>
         <ModalForm>
-          <h4>Pergunta do Aluno</h4>
-          <p>{answerOrder.question}</p>
-          <h4>Sua Resposta</h4>
-          <textarea placeholder="Resposta..." />
-          <button type="button">Responder aluno</button>
+          <Form schema={schema} onSubmit={handleSubmit}>
+            <h4>Pergunta do Aluno</h4>
+            <p>{answerOrder.question}</p>
+            <h4>Sua Resposta</h4>
+            <Input multiline name="answer" placeholder="Resposta..." />
+            <button type="submit">Responder aluno</button>
+          </Form>
         </ModalForm>
       </Modal>
     </>

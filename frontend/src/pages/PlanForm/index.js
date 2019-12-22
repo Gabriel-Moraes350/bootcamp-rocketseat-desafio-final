@@ -72,13 +72,14 @@ export default function PlanForm() {
   };
 
   return (
-    <ContainerForm
-      title={pageTitle}
-      onSave={save}
-      schema={schema}
-      initialData={plan}
-    >
-      <InputComponent label="Título do plano" name="title" type="text" />
+    <ContainerForm title={pageTitle} onSave={save} schema={schema}>
+      <InputComponent
+        label="Título do plano"
+        value={plan.title || ''}
+        onChange={e => setPlan({ ...plan, title: e.target.value })}
+        name="title"
+        type="text"
+      />
       <InputComponent
         label="Duração (em meses)"
         name="duration"

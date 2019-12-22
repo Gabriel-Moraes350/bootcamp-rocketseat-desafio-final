@@ -5,16 +5,25 @@ import { Input } from '@rocketseat/unform';
 
 import { Container } from './styles';
 
-export default function InputComponent({ label, name, width, mask, ...props }) {
+export default function InputComponent({
+  label,
+  name,
+  width,
+  mask,
+  disabled,
+  ...props
+}) {
   return (
     <Container width={width}>
       <label htmlFor={name}>{label}</label>
       {mask ? (
-        <InputMask {...props} mask={mask}>
-          {inputProps => <Input id={name} name={name} {...inputProps} />}
+        <InputMask disabled={disabled} {...props} mask={mask}>
+          {inputProps => (
+            <Input disabled={disabled} id={name} name={name} {...inputProps} />
+          )}
         </InputMask>
       ) : (
-        <Input id={name} name={name} {...props} />
+        <Input disabled={disabled} id={name} name={name} {...props} />
       )}
     </Container>
   );
@@ -25,9 +34,11 @@ InputComponent.propTypes = {
   name: PropTypes.string.isRequired,
   width: PropTypes.string,
   mask: PropTypes.string,
+  disabled: PropTypes.bool,
 };
 
 InputComponent.defaultProps = {
   width: '100%',
   mask: '',
+  disabled: false,
 };

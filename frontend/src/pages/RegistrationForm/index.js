@@ -55,7 +55,7 @@ export default function RegistrationForm() {
           duration: state.duration,
         },
         student: { value: state.studentId, label: state.student },
-        price: state.price,
+        price: `R$${parseFloat(state.price).toFixed(2)}`,
         endDate: state.endDate,
       });
       setPageTitle('Edição de Matrícula');
@@ -121,7 +121,9 @@ export default function RegistrationForm() {
       ? parseISO(date.toISOString())
       : parse(date, 'dd/MM/yyyy', new Date());
     const endDate = format(addMonths(startDateParsed, duration), 'dd/MM/yyyy');
-    const price = parseFloat(unitPrice) * duration;
+    const price = `R$${parseFloat(parseFloat(unitPrice) * duration).toFixed(
+      2
+    )}`;
     return { price, endDate };
   };
 
@@ -167,12 +169,7 @@ export default function RegistrationForm() {
   };
 
   return (
-    <ContainerForm
-      title={pageTitle}
-      onSave={save}
-      schema={schema}
-      initialData={register}
-    >
+    <ContainerForm title={pageTitle} onSave={save} schema={schema}>
       <Container>
         <AsyncSelect
           styles={{
@@ -221,9 +218,7 @@ export default function RegistrationForm() {
         disabled
         type="text"
         width="25%"
-        value={
-          register.price ? `R$${parseFloat(register.price).toFixed(2)}` : ''
-        }
+        value={register.price || ''}
       />
     </ContainerForm>
   );
