@@ -1,6 +1,9 @@
 import { Op } from 'sequelize';
 import Student from '../models/Student';
 import checkEmailStudentValidator from '../validators/checkEmailStudentValidator';
+import Checkin from '../models/Checkin';
+import HelpOrder from '../models/HelpOrder';
+import Registration from '../models/Registration';
 
 class StudentController {
   async index(req, res) {
@@ -32,7 +35,7 @@ class StudentController {
     const findStudent = await Student.findByPk(id);
 
     if (!findStudent) {
-      return res.status(404).json({ error: "User doesn't exist!" });
+      return res.status(404).json({ error: "Student doesn't exist!" });
     }
 
     // check if the user is changing its email, if it check for one in the database
@@ -46,6 +49,29 @@ class StudentController {
     }
 
     return res.json(await findStudent.update(req.body));
+  }
+
+  async delete(req, res) {
+    const { id } = req.params;
+
+    const findStudent = await Student.findByPk(id);
+
+    if (!findStudent) {
+      return res.status(404).json({ error: "Student doesn't exist!" });
+    }
+
+    await Registration.destroy({
+      where: { studentId: id },
+    });
+
+    await Checkin.destroy({ where: { studentId: id } });
+    await HelpOrder.destroy({
+      where: { studentId: id },
+    });
+
+    await findStudent.destroy();
+
+    return res.json();
   }
 }
 

@@ -59,6 +59,7 @@ routes.get('/', (req, res) => res.json({ message: 'Hello' }));
 routes.post('/students', StudentValidator, StudentController.store);
 routes.put('/students/:id', StudentValidator, StudentController.update);
 routes.get('/students', StudentController.index);
+routes.delete('/students/:id', StudentController.delete);
 
 // plans
 routes.get('/plans', PlanController.index);
