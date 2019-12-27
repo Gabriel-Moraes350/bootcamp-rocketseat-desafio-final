@@ -18,6 +18,10 @@ import HelpOrderController from './app/controllers/HelpOrderController';
 const routes = new Router();
 
 routes.post('/login', loginValidator, sessionController.store);
+/**
+ * view student
+ */
+routes.get('/students/:id/login', StudentController.view);
 
 /**
  * checkins

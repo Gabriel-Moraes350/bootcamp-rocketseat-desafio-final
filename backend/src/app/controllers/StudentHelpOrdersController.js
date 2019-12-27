@@ -3,10 +3,15 @@ import HelpOrder from '../models/HelpOrder';
 class StudentHelpOrdersController {
   async index(req, res) {
     const { studentId } = req.params;
-    const helpOrders = await HelpOrder.findAll({
+    const { page = 1, limit = 5 } = req.query;
+    const helpOrders = await HelpOrder.findAndCountAll({
       where: {
         studentId,
       },
+      page,
+      limit,
+      offset: (page - 1) * limit,
+      order: [['id', 'desc']],
     });
 
     return res.json(helpOrders);

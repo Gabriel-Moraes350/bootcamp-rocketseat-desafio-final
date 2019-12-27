@@ -17,6 +17,18 @@ class StudentController {
     return res.json(await Student.findAll({ where }));
   }
 
+  async view(req, res) {
+    const { id } = req.params;
+
+    const findStudent = await Student.findByPk(id);
+
+    if (!findStudent) {
+      return res.status(404).json({ error: "Student doesn't exist!" });
+    }
+
+    return res.json(id);
+  }
+
   async store(req, res) {
     try {
       await checkEmailStudentValidator({ email: req.body.email });
