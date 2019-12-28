@@ -8,7 +8,6 @@ class StudentHelpOrdersController {
       where: {
         studentId,
       },
-      page,
       limit,
       offset: (page - 1) * limit,
       order: [['id', 'desc']],

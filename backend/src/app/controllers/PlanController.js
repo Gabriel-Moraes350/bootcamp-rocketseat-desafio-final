@@ -1,9 +1,18 @@
 import Plan from '../models/Plan';
 import checkPlanTitleValidator from '../validators/checkPlanTitleValidator';
+import { calculateLimitAndOffset, paginate } from '../services/pagination';
 
 class PlanController {
   async index(req, res) {
-    const plans = await Plan.findAll();
+    const { page } = req.query;
+    const { limit, offset } = calculateLimitAndOffset(page);
+
+    const { rows, count } = await Plan.findAndCountAll({
+      limit,
+      offset,
+    });
+
+    const plans = paginate(page, count, rows, limit);
 
     return res.json(plans);
   }

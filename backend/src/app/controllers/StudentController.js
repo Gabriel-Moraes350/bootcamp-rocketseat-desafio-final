@@ -4,17 +4,30 @@ import checkEmailStudentValidator from '../validators/checkEmailStudentValidator
 import Checkin from '../models/Checkin';
 import HelpOrder from '../models/HelpOrder';
 import Registration from '../models/Registration';
+import { calculateLimitAndOffset, paginate } from '../services/pagination';
 
 class StudentController {
   async index(req, res) {
-    const { q } = req.query;
+    const { q, page } = req.query;
+
     const where = {};
     if (q) {
       where.name = {
         [Op.iLike]: `%${q}%`,
       };
     }
-    return res.json(await Student.findAll({ where }));
+
+    const { limit, offset } = calculateLimitAndOffset(page);
+
+    const { rows, count } = await Student.findAndCountAll({
+      where,
+      limit,
+      offset,
+    });
+
+    const students = paginate(page, count, rows, limit);
+
+    return res.json(students);
   }
 
   async view(req, res) {

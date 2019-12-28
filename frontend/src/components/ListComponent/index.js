@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import ReactPaginate from 'react-paginate';
 import history from '~/services/history';
 import Button from '../ButtonComponent';
 
@@ -14,6 +15,8 @@ export default function ListComponent({
   urlEdit,
   onDelete,
   width,
+  onPageChanged,
+  totalPages,
   search,
   searchChange,
 }) {
@@ -68,6 +71,17 @@ export default function ListComponent({
               })}
           </tbody>
         </table>
+        <ReactPaginate
+          previousLabel="Anterior"
+          nextLabel="Próxima"
+          pageCount={totalPages}
+          marginPagesDisplayed={1}
+          pageRangeDisplayed={1}
+          onPageChange={({ selected }) => onPageChanged(selected + 1)}
+          containerClassName="pagination"
+          subContainerClassName="pages pagination"
+          activeClassName="active"
+        />
       </section>
     </Container>
   );

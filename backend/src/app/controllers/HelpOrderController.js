@@ -1,16 +1,23 @@
 import HelpOrder from '../models/HelpOrder';
 import Queue from '../../lib/Queue';
 import HelpOrderAnswer from '../jobs/HelpOrderAnswer';
+import { calculateLimitAndOffset, paginate } from '../services/pagination';
 
 class HelpOrderController {
   async index(req, res) {
-    const itensWithNoAnswer = await HelpOrder.findAll({
+    const { page } = req.query;
+    const { limit, offset } = calculateLimitAndOffset(page);
+
+    const { rows, count } = await HelpOrder.findAll({
       where: {
         answerAt: null,
       },
       include: ['student'],
+      limit,
+      offset,
     });
 
+    const itensWithNoAnswer = paginate(page, count, rows, limit);
     return res.json(itensWithNoAnswer);
   }
 

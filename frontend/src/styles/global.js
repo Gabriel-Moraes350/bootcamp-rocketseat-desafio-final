@@ -85,4 +85,14 @@ export default createGlobalStyle`
     .display-none {
       display: none;
     }
+
+    #react-paginate ul {
+      display: inline-block;
+      padding-left: 15px;
+      padding-right: 15px;
+    }
+
+    #react-paginate li {
+        display: inline-block;
+    }
 `;

@@ -2,14 +2,23 @@ import Registration from '../models/Registration';
 import { register, update } from '../services/saveRegistration';
 import Student from '../models/Student';
 import Plan from '../models/Plan';
+import { calculateLimitAndOffset, paginate } from '../services/pagination';
 
 class RegistrationController {
   async index(req, res) {
-    const registration = await Registration.findAll({
+    const { page } = req.query;
+
+    const { limit, offset } = calculateLimitAndOffset(page);
+
+    const { rows, count } = await Registration.findAndCountAll({
       include: [{ model: Student, as: 'student' }, { model: Plan, as: 'plan' }],
+      limit,
+      offset,
     });
 
-    return res.json(registration);
+    const registrations = paginate(page, count, rows, limit);
+
+    return res.json(registrations);
   }
 
   async store(req, res) {

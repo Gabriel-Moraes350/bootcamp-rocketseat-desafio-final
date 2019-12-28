@@ -12,6 +12,7 @@ export default function PlanForm() {
     duration: Yup.number()
       .typeError('Deve ser um número válido')
       .positive()
+      .max(12, 'Número máximo de meses é 12')
       .required('Duração é obrigatória'),
     price: Yup.string().required('Preço é obrigatório'),
   });

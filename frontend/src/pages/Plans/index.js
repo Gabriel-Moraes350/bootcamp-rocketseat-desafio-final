@@ -4,28 +4,29 @@ import ListComponent from '~/components/ListComponent';
 import api from '~/services/api';
 
 export default function Plans() {
-  const [plans, setPlans] = useState([{}]);
+  const [plans, setPlans] = useState({ items: [], totalPages: 1 });
+  async function getPlans(page) {
+    try {
+      const {
+        data: { rows, totalPages },
+      } = await api.get(`/plans?page=${page}`);
 
-  useEffect(() => {
-    async function getPlans() {
-      try {
-        const { data } = await api.get(`/plans`);
+      const result = rows.map(plan => {
+        plan.durationText =
+          plan.duration > 1 ? `${plan.duration} meses` : '1 mês';
 
-        const result = data.map(plan => {
-          plan.durationText =
-            plan.duration > 1 ? `${plan.duration} meses` : '1 mês';
+        plan.price = `R$${parseFloat(plan.price).toFixed(2)}`;
 
-          plan.price = `R$${parseFloat(plan.price).toFixed(2)}`;
+        return plan;
+      });
 
-          return plan;
-        });
-
-        setPlans(result);
-      } catch (e) {
-        toast.error('Não foi possível buscar planos');
-      }
+      setPlans({ items: result, totalPages });
+    } catch (e) {
+      toast.error('Não foi possível buscar planos');
     }
-    getPlans();
+  }
+  useEffect(() => {
+    getPlans(1);
   }, []);
 
   const onDelete = async id => {
@@ -46,7 +47,9 @@ export default function Plans() {
       columns={['Título', 'Duração', 'Valor p/ Mês']}
       fields={['title', 'durationText', 'price']}
       urlEdit="plans-form"
-      data={plans}
+      onPageChanged={getPlans}
+      totalPages={plans.totalPages}
+      data={plans.items}
       onDelete={onDelete}
       width={800}
     />
