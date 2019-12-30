@@ -6,6 +6,7 @@ module.exports = {
       'users',
       [
         {
+          id: 1,
           name: 'Administrador',
           email: 'admin@gympoint.com',
           password_hash: bcrypt.hashSync('123456', 8),
@@ -17,5 +18,7 @@ module.exports = {
     );
   },
 
-  down: () => {},
+  down: queryInterface => {
+    return queryInterface.bulkDelete('users', null, {});
+  },
 };
