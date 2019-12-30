@@ -5,6 +5,7 @@ import api from '~/services/api';
 import history from '~/services/history';
 import ContainerForm from '~/components/ContainerForm';
 import InputComponent from '~/components/InputComponent';
+import CurrencyInput from '~/components/CurrencyInput';
 
 export default function PlanForm() {
   const schema = Yup.object().shape({
@@ -26,16 +27,17 @@ export default function PlanForm() {
 
   const [pageTitle, setPageTitle] = useState('Cadastro de Plano');
   const calcTotalPrice = (duration = '', price = '') => {
-    const result = `R$${(
+    const result = `${(
       Number(duration) * parseFloat(price.replace('R$', ''))
     ).toFixed(2)}`;
-    return result;
+    return isNaN(result) ? 'R$0.00' : `R$${result}`;
   };
   useEffect(() => {
     const { state } = history.location;
     if (state) {
       setPlan({
         ...state,
+        price: state.price.replace('.', ','),
         totalPrice: calcTotalPrice(state.duration, state.price),
       });
       setPageTitle('Edição de Plano');
@@ -46,7 +48,7 @@ export default function PlanForm() {
     return api.put(`/plans/${plan.id}`, {
       title,
       duration,
-      price: price.replace('R$', ''),
+      price: parseFloat(price.replace('R$', '')).toFixed(2),
     });
   };
 
@@ -54,7 +56,7 @@ export default function PlanForm() {
     return api.post('/plans', {
       title,
       duration,
-      price: price.replace('R$', ''),
+      price: parseFloat(price.replace('R$', '')).toFixed(2),
     });
   };
 
@@ -65,6 +67,7 @@ export default function PlanForm() {
       } else {
         await saveNewPlan(formData);
         resetForm({});
+        setPlan({ title: '', price: '', duration: '', totalPrice: 'R$0.00' });
       }
       toast.success('Plano salvo com sucesso');
     } catch (e) {
@@ -95,14 +98,13 @@ export default function PlanForm() {
           });
         }}
       />
-      <InputComponent
+      <CurrencyInput
         label="Preço Mensal"
         name="price"
         type="text"
         width="30%"
-        mask="R$999.99"
         value={plan.price || ''}
-        onChange={e => {
+        onChangeEvent={e => {
           setPlan({
             ...plan,
             price: e.target.value,

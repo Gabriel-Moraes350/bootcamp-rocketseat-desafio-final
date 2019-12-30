@@ -33,11 +33,11 @@ class CheckinController {
       },
     });
 
-    // if (userCheckins.length >= 5) {
-    //   return res
-    //     .status(400)
-    //     .json({ error: 'You have exceeded the checkins limit!' });
-    // }
+    if (userCheckins.length >= 5) {
+      return res
+        .status(400)
+        .json({ error: 'Você excedeu o limite de 5 matrículas semanais!' });
+    }
 
     return res.json(await Checkin.create({ studentId }));
   }

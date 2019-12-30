@@ -45,7 +45,7 @@ class RegistrationController {
     const registration = await Registration.findByPk(id);
 
     if (!registration) {
-      return res.status(404).json({ error: 'registration not found' });
+      return res.status(404).json({ error: 'Matrícula não encontrada' });
     }
 
     await registration.destroy();

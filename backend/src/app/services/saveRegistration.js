@@ -50,7 +50,7 @@ export const update = async ({ startDate, studentId, planId }, id) => {
   const existentRegister = await Registration.findByPk(id);
 
   if (!existentRegister) {
-    throw new Error('Registration not found!');
+    throw new Error('Matrícula não encontrada!');
   }
 
   return existentRegister.update(registration);

@@ -8,7 +8,7 @@ class HelpOrderController {
     const { page } = req.query;
     const { limit, offset } = calculateLimitAndOffset(page);
 
-    const { rows, count } = await HelpOrder.findAll({
+    const { rows, count } = await HelpOrder.findAndCountAll({
       where: {
         answerAt: null,
       },
@@ -27,7 +27,7 @@ class HelpOrderController {
 
     let helpOrder = await HelpOrder.findByPk(id);
     if (!helpOrder) {
-      return res.status(404).json({ error: 'Item not found' });
+      return res.status(404).json({ error: 'Item não encontrado' });
     }
 
     // update with answer

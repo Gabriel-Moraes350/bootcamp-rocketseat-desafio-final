@@ -5,6 +5,11 @@ import { calculateLimitAndOffset, paginate } from '../services/pagination';
 class PlanController {
   async index(req, res) {
     const { page } = req.query;
+
+    if (!page) {
+      return res.json(await Plan.findAll());
+    }
+
     const { limit, offset } = calculateLimitAndOffset(page);
 
     const { rows, count } = await Plan.findAndCountAll({
@@ -38,7 +43,7 @@ class PlanController {
     const plan = await Plan.findByPk(id);
 
     if (!plan) {
-      return res.status(404).json({ error: 'Plan not found!' });
+      return res.status(404).json({ error: 'Plano não encontrado!' });
     }
 
     if (plan.title !== title) {
@@ -58,14 +63,14 @@ class PlanController {
     const plan = await Plan.findByPk(id);
 
     if (!plan) {
-      return res.status(404).json({ error: 'Plan not found!' });
+      return res.status(404).json({ error: 'Plano não encontrado!' });
     }
 
     const registration = await plan.getRegistration();
     if (registration.length > 0) {
       return res.status(400).json({
         error:
-          'Plan has registration! Delete the registration before delete the plan',
+          'Plano possui matrícula! Retire o vínculo com o plano das matrículas primeiro',
       });
     }
 

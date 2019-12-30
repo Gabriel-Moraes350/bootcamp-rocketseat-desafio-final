@@ -33,9 +33,14 @@ export default function Plans() {
     if (window.confirm('Deseja realmente excluir esse plano?')) {
       try {
         await api.delete(`/plans/${id}`);
-        const newPlans = plans.filter(s => s.id !== id);
-        setPlans(newPlans);
+        getPlans(1);
       } catch (e) {
+        if (e.response && e.response.data) {
+          const { data } = e.response;
+          toast.error(data.error);
+          return;
+        }
+
         toast.error('Não foi possível excluir plano');
       }
     }

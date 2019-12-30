@@ -1,4 +1,4 @@
-export function calculateLimitAndOffset(page, limit = 2) {
+export function calculateLimitAndOffset(page, limit = 5) {
   return {
     limit,
     offset: (page - 1) * limit,

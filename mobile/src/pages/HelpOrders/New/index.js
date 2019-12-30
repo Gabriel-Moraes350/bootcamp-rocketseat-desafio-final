@@ -15,13 +15,17 @@ export default function NewHelpOrder({ navigation }) {
       return;
     }
 
-    await api.post(`/help-orders`, {
-      question,
-    });
+    try {
+      await api.post(`/help-orders`, {
+        question,
+      });
 
-    setQuestion('');
-    Keyboard.dismiss();
-    navigation.navigate('HelpOrders');
+      setQuestion('');
+      Keyboard.dismiss();
+      navigation.navigate('HelpOrders');
+    } catch (e) {
+      Alert.alert('Erro', 'Não foi possível salvar o pedido de ajuda');
+    }
   }
 
   return (

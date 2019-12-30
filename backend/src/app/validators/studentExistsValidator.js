@@ -5,7 +5,7 @@ export default async (req, res, next) => {
 
   const findStudent = await Student.findByPk(studentId);
   if (!findStudent) {
-    return res.status(404).json({ error: 'Student not found!' });
+    return res.status(404).json({ error: 'Estudante não encontrado!' });
   }
 
   return next();

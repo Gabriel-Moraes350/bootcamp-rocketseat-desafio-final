@@ -48,8 +48,20 @@ export default function Checkins() {
   }, []);
 
   async function doCheckIn() {
-    setCheckins({ ...checkIns, btnLoading: true });
-    await api.post(`/checkins`);
+    try {
+      setCheckins({ ...checkIns, btnLoading: true });
+      await api.post(`/checkins`);
+    } catch (e) {
+      if (e.response) {
+        const { data } = e.response;
+        Alert.alert('Erro', data.error);
+        setCheckins({ ...checkIns, btnLoading: false });
+        return;
+      }
+
+      Alert.alert('Não foi possível realizar mais checkins');
+    }
+
     setCheckins({ ...checkIns, btnLoading: false });
     getCheckins(1);
   }

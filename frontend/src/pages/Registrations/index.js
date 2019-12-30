@@ -45,9 +45,13 @@ export default function Registrations() {
       try {
         await api.delete(`/registrations/${id}`);
 
-        const newRegistrations = registrations.filter(s => s.id !== id);
-        setRegistrarions(newRegistrations);
+        getRegistrations(1);
       } catch (e) {
+        if (e.response) {
+          const { data } = e.response;
+          toast.error(data.error);
+          return;
+        }
         toast.error('Não foi possível excluir a matrícula');
       }
     }

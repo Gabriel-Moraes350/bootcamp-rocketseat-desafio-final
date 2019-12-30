@@ -10,13 +10,13 @@ class SessionController {
 
     if (!findUser) {
       return res.status(401).json({
-        error: 'Email/Password wrong!',
+        error: 'Usuário/Senha incorretos!',
       });
     }
 
     if (!(await findUser.checkPassword(password))) {
       return res.status(401).json({
-        error: 'Email/Password wrong!',
+        error: 'Usuário/Senha incorretos!',
       });
     }
 

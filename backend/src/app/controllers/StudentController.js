@@ -17,6 +17,12 @@ class StudentController {
       };
     }
 
+    // in case of doesn't have a pagination page in request
+    if (!page) {
+      const students = await Student.findAll(where);
+      return res.json(students);
+    }
+
     const { limit, offset } = calculateLimitAndOffset(page);
 
     const { rows, count } = await Student.findAndCountAll({
@@ -36,7 +42,7 @@ class StudentController {
     const findStudent = await Student.findByPk(id);
 
     if (!findStudent) {
-      return res.status(404).json({ error: "Student doesn't exist!" });
+      return res.status(404).json({ error: 'Estudante não encontrado!' });
     }
 
     return res.json(id);
@@ -60,7 +66,7 @@ class StudentController {
     const findStudent = await Student.findByPk(id);
 
     if (!findStudent) {
-      return res.status(404).json({ error: "Student doesn't exist!" });
+      return res.status(404).json({ error: 'Estudante não encontrado!' });
     }
 
     // check if the user is changing its email, if it check for one in the database
@@ -82,7 +88,7 @@ class StudentController {
     const findStudent = await Student.findByPk(id);
 
     if (!findStudent) {
-      return res.status(404).json({ error: "Student doesn't exist!" });
+      return res.status(404).json({ error: 'Estudante não encontrado!' });
     }
 
     await Registration.destroy({

@@ -28,9 +28,14 @@ export default function StudentForm() {
   useEffect(() => {
     const { state } = history.location;
     if (state) {
+      let correctWeight = state.weight;
+      if (state.weight.length < 5) {
+        const weightWithSuffix = parseFloat(state.weight).toFixed(1);
+        correctWeight = weightWithSuffix.padStart(5, 0);
+      }
       const newState = {
         ...state,
-        weight: state.weight.padStart(5, '0'),
+        weight: correctWeight,
         height: parseFloat(state.height).toFixed(2),
         birthDate: format(parseISO(state.birthDate), 'dd/MM/yyyy'),
       };
@@ -112,12 +117,12 @@ export default function StudentForm() {
         name="weight"
         type="text"
         width="30%"
-        mask="999.9Kg"
+        mask="?99.9Kg"
         value={student.weight || ''}
         onChange={e => setStudent({ ...student, weight: e.target.value })}
       />
       <InputComponent
-        label="Altura"
+        label="Altura (em Metros)"
         mask="9.99m"
         name="height"
         type="text"

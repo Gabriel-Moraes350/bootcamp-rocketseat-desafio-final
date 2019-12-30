@@ -45,9 +45,13 @@ export default function Students() {
     if (window.confirm('Deseja realmente excluir esse aluno?')) {
       try {
         await api.delete(`/students/${id}`);
-        const newStudents = students.data.filter(s => s.id !== id);
-        setStudents({ ...students, data: newStudents });
+        getStudents(1);
       } catch (e) {
+        if (e.response) {
+          const { data } = e.response;
+          toast.error(data.error);
+          return;
+        }
         toast.error('Não foi possível excluir estudante');
       }
     }

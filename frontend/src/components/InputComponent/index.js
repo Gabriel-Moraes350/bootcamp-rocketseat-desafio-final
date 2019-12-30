@@ -17,7 +17,13 @@ export default function InputComponent({
     <Container width={width}>
       <label htmlFor={name}>{label}</label>
       {mask ? (
-        <InputMask disabled={disabled} {...props} mask={mask}>
+        <InputMask
+          formatChars={{ '9': '[0-9]', t: '[0-9-]', '?': '[0-9 ]' }}
+          maskChar={null}
+          disabled={disabled}
+          {...props}
+          mask={mask}
+        >
           {inputProps => (
             <Input disabled={disabled} id={name} name={name} {...inputProps} />
           )}
